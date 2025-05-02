@@ -26,7 +26,6 @@ class BankAccount:
         return None
 
     def create_table(self):
-         # Create the accounts table if it doesn't exist
         self.cursor.execute('''
             CREATE TABLE IF NOT EXISTS accounts (
                 user_id TEXT PRIMARY KEY,
@@ -51,8 +50,7 @@ class BankAccount:
         
         if balance:
             return balance[0]
-        else:
-            return 0.0
+        return 0.0
     
     def deposit(self, amount):
         self.cursor.execute(
@@ -63,7 +61,6 @@ class BankAccount:
     def withdraw(self, amount):
         current_balance = self.get_balance()
         if amount <= current_balance:
-            # Subtract from balance
             self.cursor.execute(
                 'UPDATE accounts SET balance = balance - ? WHERE user_id = ?',
                 (amount, self.user_id)

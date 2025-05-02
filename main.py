@@ -3,7 +3,7 @@ from random import randint
 
 def create_new_acc():
     print('** CREATE ACCOUNT **')
-    input('Your name: ')
+    input('Your name: ') # just random questions
     input('Your email: ')
     password = input('Your password: ')
     
@@ -32,16 +32,16 @@ def get_user_id():
         if user_id == '0':
             return 'new_acc'
         elif user_id.isdigit() == False:
-            print('Your ID must not contain any letter')
+            print('Your ID must not contain any letter\n')
             user_id = None
         elif len(user_id) != 6:
-            print('Your ID must only be 6 digits long')
+            print('Your ID must only be 6 digits long\n')
             user_id = None
     return user_id
 
 while True:
     user_id = get_user_id()
-    if user_id == 'new_acc':
+    if user_id == 'new_acc': # acc created before log in
         user_id, password = create_new_acc()
         account = BankAccount(user_id, password)
         account.create_account()
@@ -71,7 +71,7 @@ def user_choice():
     while choice is None:
         try:
             choice = int(input('Your choice: '))
-            if choice > 7 or choice < 1:
+            if choice > 6 or choice < 1:
                 print('Choice must be from 1 to 6\n')
                 choice = None
         except ValueError:
@@ -83,41 +83,37 @@ def main():
     print('Hello, how might I help you today?')
     print('Plese choose from the opions below to continue')
     while True:
-        try:
-            menu()
-            choice = user_choice()
-            if choice == 1:
-                print_balance()
-            elif choice == 2:
-                deposit_amount = int(input("How much do you wanna deposit: "))
-                account.deposit(deposit_amount)
-                print_balance()
-            elif choice == 3:
-                withdraw_amount = int(input("How much do you wanna withdraw: "))
-                account.withdraw(withdraw_amount)
-                print_balance()
-            elif choice == 4:
-                user_id, password = create_new_acc()
-                account.create_account(user_id, password)
-                print("Account created")
-                print("Choose '7' to exit and run program again to log in\n")
-            elif choice == 5:
-                print('** DELETE ACCOUNT **')
-                delete_id = input('ID to delete: ')
-                if delete_id in account.acc_existed():
-                    account.delete_acc(delete_id)
-                    print('Deleted\n')
-                else:
-                    print("Account doesnt exist")
-                account.delete_placeholder()
-            elif choice == 6:
-                print('Thank you for using :)')
-                account.delete_placeholder()
-                break
+        menu()
+        choice = user_choice()
+        if choice == 1:
+            print_balance()
+        elif choice == 2:
+            deposit_amount = int(input("How much do you wanna deposit: "))
+            account.deposit(deposit_amount)
+            print_balance()
+        elif choice == 3:
+            withdraw_amount = int(input("How much do you wanna withdraw: "))
+            account.withdraw(withdraw_amount)
+            print_balance()
+        elif choice == 4:
+            user_id, password = create_new_acc()
+            account.create_account(user_id, password)
+            print("Account created")
+            print("Choose '7' to exit and run program again to log in\n")
+        elif choice == 5:
+            print('** DELETE ACCOUNT **')
+            delete_id = input('ID to delete: ')
+            
+            if delete_id in account.acc_existed():
+                account.delete_acc(delete_id)
+                print('Deleted\n')
             else:
-                print()
-        except ValueError:
-            print('')
+                print("Account doesnt exist")
+            account.delete_placeholder()
+        else:
+            print('Thank you for using :)')
+            account.delete_placeholder()
+            break
 
 main()
 
